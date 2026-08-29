@@ -1,0 +1,112 @@
+/* زر الهامبرغر - يظهر الآن بشكل دائم على جميع الشاشات */
+.hamburger-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.hamburger-btn__line {
+  width: 100%;
+  height: 3px;
+  background-color: var(--primary-color);
+  border-radius: 2px;
+  transition:
+    transform var(--transition-speed) ease,
+    opacity var(--transition-speed) ease;
+}
+
+/* القائمة الجانبية */
+.mobile-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 200px; /* زيادة العرض قليلاً لتناسب شاشات اللابتوب */
+  height: 100vh;
+  background-color: var(--surface-color);
+  box-shadow: -4px 0 15px rgba(0, 0, 0, 0.1);
+  padding: 80px 24px 24px;
+  z-index: 1050;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-sidebar--open {
+  transform: translateX(0);
+}
+
+.mobile-sidebar__link {
+  display: block;
+  font-size: 1.2rem;
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 10px 10px;
+  border-bottom: 1px solid rgba(93, 91, 91, 0.745);
+  transition: color var(--transition-speed) ease;
+}
+
+.mobile-sidebar__link:hover {
+  color: var(--accent-color);
+}
+
+/* قسم الوضع الليلي داخل القائمة الجانبية */
+.mobile-sidebar__theme-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 15px 10px;
+  border-bottom: 2px dashed rgba(128, 128, 128, 0.2);
+}
+
+.mobile-sidebar__theme-label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+/* تصميم الزر الجديد داخل القائمة */
+.sidebar-theme-btn {
+  background-color: var(--primary-color);
+  color: var(--surface-color);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform var(--transition-speed) ease;
+}
+
+.sidebar-theme-btn:hover {
+  transform: scale(1.1);
+}
+
+/* الطبقة المعتمة */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
+}
+
+.overlay--visible {
+  opacity: 1;
+  visibility: visible;
+}

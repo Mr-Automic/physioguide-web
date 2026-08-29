@@ -1,0 +1,65 @@
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* شريط الملاحة (Navbar Block) */
+.navbar {
+  background-color: var(--surface-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.navbar__container {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  flex-wrap: wrap;
+}
+
+.navbar__logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.navbar__link {
+  text-decoration: none;
+  color: var(--text-color);
+  margin-right: 20px;
+  font-weight: 500;
+  transition: color var(--transition-speed) ease;
+  padding: 10px;
+  border-radius: 20px; /* تغيير من 10cm العشوائية */
+}
+
+.navbar__link:hover,
+.navbar__link--active {
+  color: var(--accent-color);
+  background-color: rgba(128, 128, 128, 0.1);
+}
+
+/* الحاوية الرئيسية (Main Content) */
+.content-section {
+  padding: 40px 0;
+}
+
+.content-section__title {
+  margin-bottom: 30px;
+  color: var(--primary-color);
+  font-size: 1.8rem;
+}
+
+/* شبكة البطاقات */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}

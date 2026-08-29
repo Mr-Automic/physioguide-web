@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PhysioGuide</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script>
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    </script>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <div class="container navbar__container">
+        <div class="navbar__logo">PhysioGuide</div>
+
+        <button
+          class="hamburger-btn"
+          id="mobile-menu-toggle"
+          aria-label="افتح القائمة"
+        >
+          <span class="hamburger-btn__line"></span>
+          <span class="hamburger-btn__line"></span>
+          <span class="hamburger-btn__line"></span>
+        </button>
+      </div>
+    </header>
+
+    <aside class="mobile-sidebar" id="mobile-sidebar">
+      <nav class="mobile-sidebar__nav">
+        <!+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+--+-+-+وين امو لهاض mobile-sidebar__nav؟؟؟>
+        <a
+          href="index.html"
+          class="mobile-sidebar__link mobile-sidebar__link--active"
+          >الرئيسية</a
+        >
+        <a href="#" class="mobile-sidebar__link">أناتومي</a>
+        <a href="#" class="mobile-sidebar__link">فسيولوجي</a>
+        <a href="#" class="mobile-sidebar__link">تمارين</a>
+
+        <div class="mobile-sidebar__theme-section">
+          <span class="mobile-sidebar__theme-label">الوضع البصري:</span>
+          <button
+            id="theme-toggle"
+            class="sidebar-theme-btn"
+            aria-label="تغيير الوضع"
+          >
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+      </nav>
+    </aside>
+
+    <div class="overlay" id="sidebar-overlay"></div>
+
+    <main class="container u-margin-top-md">
+      <article class="article">
+        <div class="article__progress-bar"></div>
+
+        <header class="article__header">
+          <span class="badge badge--primary">تمارين عملية</span>
+          <h1 class="article__title">
+            تأهيل الكفة المدورة (Rotator Cuff) للرياضيين
+          </h1>
+          <div class="article__meta">
+            <span class="article__meta-item">بقلم: د. مجد مزاهرة</span>
+            <span class="article__meta-item">تاريخ النشر: 21 مايو 2026</span>
+          </div>
+        </header>
+
+        <div class="medical-disclaimer">
+          <div class="medical-disclaimer__accent-line"></div>
+          <p class="medical-disclaimer__text">
+            <strong>⚠️ تنبيه طبي:</strong> هذه المعلومات مخصصة لطلاب العلاج
+            الطبيعي والممارسين. لا تقم بتطبيق هذه التمارين على مرضى حقيقيين دون
+            إشراف أكاديمي أو تقييم سريري دقيق لحالتهم.
+          </p>
+        </div>
+
+        <div class="article__content">
+          <h2>1. التشريح الوظيفي (Functional Anatomy)</h2>
+          <p>
+            مجموعة الكفة المدورة تتكون من أربع عضلات رئيسية (Supraspinatus,
+            Infraspinatus, Teres Minor, Subscapularis). دورها الأساسي ليس توليد
+            القوة الحركية، بل <strong>تثبيت رأس عظمة العضد</strong> داخل التجويف
+            الحقاني (Glenoid cavity) أثناء حركة الذراع.
+          </p>
+
+          <h2>2. فيديو تطبيقي للتمرين</h2>
+          <div class="article__video-wrapper">
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="YouTube video player"
+              frameborder="0"
+              allow="
+                accelerometer;
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                gyroscope;
+                picture-in-picture;
+              "
+              allowfullscreen
+            >
+            </iframe>
+          </div>
+
+          <h2>3. الأخطاء الشائعة أثناء التأهيل</h2>
+          <ul class="article__list">
+            <li class="article__list-item">
+              التحميل الزائد في المراحل الأولى (Early Overloading).
+            </li>
+            <li class="article__list-item">
+              تجاهل لوح الكتف (Scapular Dyskinesis) والتركيز فقط على المفصل.
+            </li>
+            <li class="article__list-item">
+              إهمال تمارين الإطالة للعضلات الصدرية (Pectorals).
+            </li>
+          </ul>
+        </div>
+      </article>
+    </main>
+
+    <button
+      id="smartScrollBtn"
+      class="scroll-btn scroll-btn--hidden"
+      aria-label="تمرير الصفحة"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+
+    <script src="js/script.js" type="module"></script>
+  </body>
+</html>

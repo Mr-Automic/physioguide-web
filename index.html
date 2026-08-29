@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PhysioGuide</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script>
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    </script>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="container navbar__container">
+        <div class="navbar__logo">PhysioGuide</div>
+
+        <button
+          class="hamburger-btn"
+          id="mobile-menu-toggle"
+          aria-label="افتح القائمة"
+        >
+          <span class="hamburger-btn__line"></span>
+          <span class="hamburger-btn__line"></span>
+          <span class="hamburger-btn__line"></span>
+        </button>
+      </div>
+    </header>
+
+    <aside class="mobile-sidebar" id="mobile-sidebar">
+      <nav class="mobile-sidebar__nav">
+        <a
+          href="index.html"
+          class="mobile-sidebar__link mobile-sidebar__link--active"
+          >الرئيسية</a
+        >
+        <a href="#" class="mobile-sidebar__link">أناتومي</a>
+        <a href="#" class="mobile-sidebar__link">فسيولوجي</a>
+        <a href="#" class="mobile-sidebar__link">تمارين</a>
+
+        <div class="mobile-sidebar__theme-section">
+          <span class="mobile-sidebar__theme-label">الوضع البصري:</span>
+          <button
+            id="theme-toggle"
+            class="sidebar-theme-btn"
+            aria-label="تغيير الوضع"
+          >
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+      </nav>
+    </aside>
+
+    <div class="overlay" id="sidebar-overlay"></div>
+
+    <main class="container">
+      <section class="content-section">
+        <h2 class="content-section__title">أحدث المفاهيم والتمارين</h2>
+
+        <div class="cards-grid">
+          <article class="card">
+            <div class="card__image">
+              <img
+                src="images/rotator-cuff.jpg"
+                alt="تمرين تأهيل الكفة المدورة"
+              />
+            </div>
+            <div class="card__body">
+              <span class="badge badge--primary">تمارين عملية</span>
+              <h3 class="card__title">تأهيل الكفة المدورة (Rotator Cuff)</h3>
+              <p class="card__text">
+                شرح مبسط للحركات الميكانيكية والعضلات المستهدفة في هذا
+                التمرين...
+              </p>
+              <a href="article.html" class="card__link">اقرأ التفاصيل &larr;</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card__image">
+              <img src="images/knee-joint.jpg" alt="مفصل الركبه" />
+            </div>
+            <div class="card__body">
+              <span class="badge badge--info">أناتومي</span>
+              <h3 class="card__title">تشريح مفصل الركبة</h3>
+              <p class="card__text">
+                نظرة شاملة على الأربطة والغضاريف وحركة المفصل الأساسية...
+              </p>
+              <a href="#" class="card__link">اقرأ التفاصيل &larr;</a>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="js/script.js" type="module"></script>
+  </body>
+</html>

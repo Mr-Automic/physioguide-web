@@ -1,0 +1,62 @@
+/* التنسيق الأساسي والموقع الثابت */
+.scroll-btn {
+  position: fixed;
+  bottom: 30px;
+  right: 20px; /* أسفل اليمين مع هامش آمن لئلا يحجب نص المقال */
+  width: 50px;
+  height: 50px;
+  background-color: #117b85; /* اللون المماثل للصورة التي أرفقتها */
+  color: white;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  z-index: 1000; /* لضمان بقائه فوق كل العناصر الأخرى */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    background-color 0.3s ease,
+    opacity 0.3s ease,
+    visibility 0.3s ease;
+}
+
+/* إخفاء الزر أسفل العتبة حتى لا يحجب محتوى القراءة */
+.scroll-btn--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.scroll-btn:hover {
+  background-color: #0d5f66;
+}
+
+/* تنسيق السهم وتأثير الدوران */
+.scroll-btn svg {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease; /* حركة دوران سلسة */
+}
+
+/* عندما يكون الزر في وضع النزول (السهم يشير للأسفل) */
+.scroll-btn.scroll-down svg {
+  transform: rotate(0deg);
+}
+
+/* عندما يكون الزر في وضع الصعود (السهم يشير للأعلى) */
+.scroll-btn.scroll-up svg {
+  transform: rotate(180deg);
+}
+
+/* تصغير الزر قليلاً على شاشات الهواتف */
+@media (max-width: 768px) {
+  .scroll-btn {
+    bottom: 24px;
+    right: 16px;
+    width: 45px;
+    height: 45px;
+  }
+}

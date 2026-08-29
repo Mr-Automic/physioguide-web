@@ -1,0 +1,269 @@
+/* ============================================
+   واجهة القارئ الاكاديمي (Reader Layout)
+   ============================================ */
+
+.reader-main {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 15px 60px;
+}
+
+/* شبكة القارئ: فهرس يمين + منطقة قراءة في المنتصف */
+.reader-layout {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  position: relative;
+}
+
+/* ---------- الفهرس الجانبي (Table of Contents) ---------- */
+.toc-sidebar {
+  flex-shrink: 0;
+  width: var(--toc-width);
+  position: sticky;
+  top: 90px;
+  align-self: flex-start;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+
+  background-color: var(--sidebar-bg);
+  border: 1px solid var(--sidebar-border);
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.toc-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--sidebar-border);
+}
+
+.toc-sidebar__title {
+  font-size: 1.1rem;
+  color: var(--primary-color);
+  margin: 0;
+  /* منع التزاحم مع زر الإغلاق */
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.toc-sidebar__close {
+  display: none; /* يظهر فقط على الجوال */
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: rgba(128, 128, 128, 0.12);
+  border: none;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--text-muted);
+  line-height: 1;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background-color var(--transition-speed) ease,
+    color var(--transition-speed) ease;
+}
+
+.toc-sidebar__close:hover {
+  background-color: rgba(128, 128, 128, 0.25);
+  color: var(--text-color);
+}
+
+.toc-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toc-nav__link {
+  display: block;
+  text-decoration: none;
+  color: var(--text-muted);
+  font-size: 0.92rem;
+  padding: 8px 12px;
+  border-right: 3px solid transparent;
+  border-radius: 6px;
+  transition:
+    color var(--transition-speed) ease,
+    background-color var(--transition-speed) ease,
+    border-color var(--transition-speed) ease;
+}
+
+.toc-nav__link:hover {
+  color: var(--accent-color);
+  background-color: rgba(128, 128, 128, 0.08);
+}
+
+.toc-nav__link--active {
+  color: var(--accent-color);
+  background-color: rgba(52, 152, 219, 0.1);
+  border-right-color: var(--accent-color);
+  font-weight: 700;
+}
+
+/* ---------- منطقة القراءة المركزية ---------- */
+.reader-content {
+  width: 100%;
+  max-width: var(--reader-max-width);
+  background-color: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  padding: 40px;
+}
+
+.reader-content__header {
+  margin-bottom: 25px;
+}
+
+.reader-content__title {
+  font-size: 2rem;
+  color: var(--primary-color);
+  line-height: 1.4;
+  margin: 12px 0;
+}
+
+.reader-content__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+  padding-bottom: 18px;
+}
+
+/* ---------- الأقسام الدراسية ---------- */
+.reader-section {
+  margin-bottom: 38px;
+}
+
+.reader-section h2 {
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  margin-bottom: 12px;
+  line-height: 1.4;
+  /* دعم مريح للنص العربي/الإنجليزي المختلط */
+  text-align: right;
+}
+
+.reader-section p {
+  font-size: 1.05rem;
+  line-height: 2;
+  margin-bottom: 14px;
+  color: var(--text-color);
+}
+
+/* تكرار قائمة المقال (تُستخدم أيضاً داخل القارئ) */
+.article__list {
+  padding-right: 20px;
+  margin: 16px 0;
+}
+
+.article__list-item {
+  margin-bottom: 10px;
+  line-height: 1.9;
+  color: var(--text-color);
+}
+
+/* ---------- زر فتح الفهرس على الجوال ---------- */
+.toc-toggle {
+  display: none;
+  position: fixed;
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  left: 16px;
+  background-color: var(--primary-color);
+  color: var(--surface-color);
+  border: none;
+  border-radius: 30px;
+  padding: 12px 18px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  z-index: 999;
+  transition:
+    background-color var(--transition-speed) ease,
+    transform var(--transition-speed) ease;
+}
+
+.toc-toggle:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- الاستجابة للشاشات المتوسطة (Tablet) ---------- */
+@media (max-width: 992px) {
+  .reader-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+
+  /* يتحول الفهرس إلى لوحة منسدلة جانبية على الجوال/التابلت */
+  .toc-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 280px;
+    height: 100vh;
+    max-height: none;
+    border-radius: 0;
+    z-index: 2000;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: -4px 0 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .toc-sidebar--open {
+    transform: translateX(0);
+  }
+
+  .toc-sidebar__close {
+    display: flex;
+  }
+
+  .toc-toggle {
+    display: block;
+  }
+
+  .reader-content {
+    max-width: 100%;
+  }
+}
+
+/* ---------- الاستجابة للهواتف ---------- */
+@media (max-width: 600px) {
+  .reader-main {
+    /* مساحة سفلية كافية لئلا تحجب أزرار الفهرس/التمرير محتوى القراءة */
+    padding: 20px 10px 100px;
+  }
+
+  .reader-content {
+    padding: 20px;
+  }
+
+  .reader-content__title {
+    font-size: 1.5rem;
+  }
+
+  .reader-content__meta {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .reader-section h2 {
+    font-size: 1.25rem;
+  }
+
+  .reader-section p {
+    font-size: 1rem;
+    line-height: 1.9;
+  }
+}

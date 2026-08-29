@@ -1,0 +1,62 @@
+:root {
+  /* ألوان الوضع النهاري (الافتراضي) */
+  --bg-color: #f8f9fa;
+  --surface-color: #ffffff;
+  --text-color: #333333;
+  --text-muted: #7f8c8d;
+  --primary-color: #2c3e50;
+  --accent-color: #3498db;
+  --warning-bg: #fff3cd;
+  --warning-text: #856404;
+  --warning-border: #ffc107;
+  --danger-color: #e74c3c;
+  --badge-bg: #e1f5fe;
+  --badge-text: #0288d1;
+
+  /* ألوان مخصصة لواجهة القارئ */
+  --sidebar-bg: #ffffff;
+  --sidebar-border: #e5e7eb;
+  --reader-max-width: 800px;
+  --toc-width: 260px;
+
+  /* ألوان بطاقة الاختبار ذات الطابع الداكن */
+  --quiz-bg: #1e293b;
+  --quiz-surface: #273449;
+  --quiz-text: #e2e8f0;
+  --quiz-muted: #94a3b8;
+  --quiz-correct: #22c55e;
+  --quiz-wrong: #ef4444;
+  --quiz-accent: #38bdf8;
+
+  --font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --transition-speed: 0.3s;
+}
+
+[data-theme="dark"] {
+  /* ألوان الوضع الليلي (يتم استبدال القيم فقط) */
+  --bg-color: #121212;
+  --surface-color: #1e1e1e;
+  --text-color: #e0e0e0;
+  --text-muted: #b0b0b0;
+  --primary-color: #64b5f6;
+  --accent-color: #4fc3f7;
+  --warning-bg: #332b00;
+  --warning-text: #ffda6a;
+  --warning-border: #ffc107;
+  --danger-color: #cf6679;
+  --badge-bg: #0277bd;
+  --badge-text: #e1f5fe;
+
+  /* إبقاء القارئ متناسقاً مع الوضع الليلي */
+  --sidebar-bg: #1e1e1e;
+  --sidebar-border: #2c2c2c;
+
+  /* بطاقة الاختبار تبقى داكنة في كلا الوضعين (طابع مميز ثابت) */
+  --quiz-bg: #0f172a;
+  --quiz-surface: #1e293b;
+  --quiz-text: #e2e8f0;
+  --quiz-muted: #94a3b8;
+  --quiz-correct: #22c55e;
+  --quiz-wrong: #ef4444;
+  --quiz-accent: #38bdf8;
+}

@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>قارئ المحاضرات — PhysioGuide</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+
+    <script>
+      if (localStorage.getItem("theme") === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- ===== شريط التنقل العلوي الثابت (Sticky Top Navigation) ===== -->
+    <header class="navbar">
+      <div class="container navbar__container">
+        <div class="navbar__logo">PhysioGuide</div>
+
+        <button
+          class="hamburger-btn"
+          id="mobile-menu-toggle"
+          aria-label="افتح القائمة"
+        >
+          <span class="hamburger-btn__line"></span>
+          <span class="hamburger-btn__line"></span>
+          <span class="hamburger-btn__line"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- ===== القائمة الجانبية الرئيسية (للجوال) ===== -->
+    <aside class="mobile-sidebar" id="mobile-sidebar">
+      <nav class="mobile-sidebar__nav">
+        <a
+          href="index.html"
+          class="mobile-sidebar__link mobile-sidebar__link--active"
+          >الرئيسية</a
+        >
+        <a href="#" class="mobile-sidebar__link">أناتومي</a>
+        <a href="#" class="mobile-sidebar__link">فسيولوجي</a>
+        <a href="#" class="mobile-sidebar__link">تمارين</a>
+
+        <div class="mobile-sidebar__theme-section">
+          <span class="mobile-sidebar__theme-label">الوضع البصري:</span>
+          <button
+            id="theme-toggle"
+            class="sidebar-theme-btn"
+            aria-label="تغيير الوضع"
+          >
+            <span id="theme-icon">🌙</span>
+          </button>
+        </div>
+      </nav>
+    </aside>
+
+    <div class="overlay" id="sidebar-overlay"></div>
+    <div class="overlay" id="toc-overlay"></div>
+
+    <!-- ===== واجهة القارئ الاكاديمية ===== -->
+    <main class="reader-main">
+      <div class="reader-layout">
+        <!-- الفهرس الجانبي (Table of Contents) -->
+        <aside class="toc-sidebar" id="toc-sidebar">
+          <div class="toc-sidebar__header">
+            <h3 class="toc-sidebar__title">محتويات الدرس</h3>
+            <button
+              class="toc-sidebar__close"
+              id="toc-close-btn"
+              aria-label="إغلاق الفهرس"
+            >
+              &times;
+            </button>
+          </div>
+          <nav class="toc-nav" id="toc-nav" aria-label="فهرس الدرس">
+            <!-- يتم توليد الروابط تلقائياً عبر TocManager -->
+          </nav>
+        </aside>
+
+        <!-- منطقة القراءة المركزية -->
+        <article class="reader-content" id="reader-content">
+          <header class="reader-content__header">
+            <span class="badge badge--info">أناتومي</span>
+            <h1 class="reader-content__title">
+              تشريح مفصل الركبة (Knee Joint Anatomy)
+            </h1>
+            <div class="reader-content__meta">
+              <span class="reader-content__meta-item">بقلم: د. مجد مزاهرة</span>
+              <span class="reader-content__meta-item">
+                تاريخ النشر: 29 أغسطس 2026
+              </span>
+            </div>
+          </header>
+
+          <div class="medical-disclaimer">
+            <div class="medical-disclaimer__accent-line"></div>
+            <p class="medical-disclaimer__text">
+              <strong>⚠️ تنبيه طبي:</strong> هذه المعلومات مخصصة لطلاب العلاج
+              الطبيعي والممارسين. لا تُستخدم كبديل عن التقييم السريري الدقيق لكل
+              حالة.
+            </p>
+          </div>
+
+          <!-- الأقسام الدراسية: العناوين هنا هي مصدر الفهرس التلقائي -->
+          <div class="reader-sections">
+            <section class="reader-section" id="sec-intro">
+              <h2>1. مقدمة: أهمية مفصل الركبة</h2>
+              <p>
+                يُعد مفصل الركبة (Knee Joint) أكبر مفصل زلالي في جسم الإنسان،
+                ويعمل كمفصل رزي (Hinge Joint) يتيح الثني والبسط مع درجة طفيفة من
+                الدوران. يجمع بين الثبات العظمي، الدعم الرباطي، والوسائد
+                الغضروفية لتوزيع الحمل أثناء المشي والجري والقفز.
+              </p>
+              <p>
+                في العلاج الطبيعي، يُعد فهم التشريح الوظيفي للركبة أساساً لتشخيص
+                الإصابات الشائعة مثل تمزق الرباط الصليبي الأمامي (ACL Tear) أو
+                إصابات الغضاريف الهلالية (Meniscal Injuries).
+              </p>
+            </section>
+
+            <section class="reader-section" id="sec-ligaments">
+              <h2>2. الأربطة الرئيسية (Major Ligaments)</h2>
+              <p>
+                توفر أربعة أربطة رئيسية الاستقرار السلبي للمفصل، ويمكن تقسيمها
+                إلى أربطة داخل المحفظة وأخرى خارجها:
+              </p>
+              <ul class="article__list">
+                <li class="article__list-item">
+                  <strong>الرباط الصليبي الأمامي (ACL):</strong> يمنع الانزلاق
+                  الأمامي لعظمة القصبة (Anterior Translation of Tibia).
+                </li>
+                <li class="article__list-item">
+                  <strong>الرباط الصليبي الخلفي (PCL):</strong> يمنع الانزلاق
+                  الخلفي لعظمة القصبة (Posterior Translation).
+                </li>
+                <li class="article__list-item">
+                  <strong>الرباط الجانبي الإنسي (MCL):</strong> يقاوم القوى
+                  المفلطحة للخارج (Valgus Stress).
+                </li>
+                <li class="article__list-item">
+                  <strong>الرباط الجانبي الوحشي (LCL):</strong> يقاوم القوى
+                  المفلطحة للداخل (Varus Stress).
+                </li>
+              </ul>
+            </section>
+
+            <section class="reader-section" id="sec-menisci">
+              <h2>3. الغضاريف الهلالية (Menisci)</h2>
+              <p>
+                يوجد هلالان غضروفيان بين عظمتي الفخذ والقصبة: الهلال الإنسي
+                (Medial Meniscus) والهلال الوحشي (Lateral Meniscus). يتكونان من
+                <strong>الغضروف الليفي (Fibrocartilage)</strong>، ويعملان على
+                امتصاص الصدمات وزيادة تطابق سطحي المفصل (Joint Congruity).
+              </p>
+            </section>
+
+            <section class="reader-section" id="sec-rom">
+              <h2>4. نطاق الحركة (Range of Motion)</h2>
+              <p>
+                يتراوح المدى الطبيعي للثني (Flexion) في الركبة السليمة بين
+                <strong>0° إلى 135°</strong> تقريباً، بينما يكون البسط
+                (Extension) حتى 0° وقد يتجاوزه قليلاً في حالات فرط البسط (Genu
+                Recurvatum). هذه القيم ضرورية عند توثيق التقييم الحركي للمريض.
+              </p>
+            </section>
+
+            <section class="reader-section" id="sec-summary">
+              <h2>5. ملخص سريع (Quick Summary)</h2>
+              <p>
+                الركبة مفصل معقد يجمع بين الثبات الديناميكي (العضلات) والثبات
+                السلبي (الأربطة والغضاريف). أي اختلال في هذه المنظومة ينعكس
+                مباشرة على نمط المشي وجودة الحركة، مما يجعل الفهم التشريحي
+                الدقيق حجر الأساس في برامج إعادة التأهيل الناجحة.
+              </p>
+            </section>
+          </div>
+
+          <!-- ===== بطاقة الاختبار (Quiz Card) ذات الطابع الداكن ===== -->
+          <section class="quiz-card" id="quiz-card">
+            <h2 class="quiz-card__title">اختبار سريع 🧠</h2>
+            <p class="quiz-card__subtitle">
+              أجب عن الأسئلة الثلاثة التالية لتثبيت المعلومة، وستحصل على تغذية
+              راجعة فورية.
+            </p>
+            <div id="quiz-container"></div>
+            <div class="quiz-card__score" id="quiz-score"></div>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <!-- زر تمرير الصفحة -->
+    <button
+      id="smartScrollBtn"
+      class="scroll-btn scroll-btn--hidden"
+      aria-label="تمرير الصفحة"
+    >
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </button>
+
+    <!-- زر فتح الفهرس (يظهر على الجوال فقط) -->
+    <button class="toc-toggle" id="toc-toggle-btn" aria-label="فتح الفهرس">
+      📑 الفهرس
+    </button>
+
+    <script src="js/reader.js" type="module"></script>
+  </body>
+</html>
