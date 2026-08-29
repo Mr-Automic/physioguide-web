@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="منصة PhysioGuide الأكاديمية - شروحات واختبارات تفاعلية لطلاب العلاج الطبيعي."
+    />
     <title>قارئ المحاضرات — PhysioGuide</title>
 
     <link rel="stylesheet" href="css/style.css" />
@@ -20,6 +24,23 @@
       <div class="container navbar__container">
         <div class="navbar__logo">PhysioGuide</div>
 
+        <nav class="navbar__nav" aria-label="التنقل الرئيسي">
+          <a href="index.html" class="navbar__link">الرئيسية</a>
+          <a href="reader.html" class="navbar__link navbar__link--active"
+            >قارئ المحاضرات</a
+          >
+          <a href="#" class="navbar__link">أناتومي</a>
+          <a href="#" class="navbar__link">فسيولوجي</a>
+          <a href="#" class="navbar__link">تمارين</a>
+
+          <button
+            class="theme-toggle-btn sidebar-theme-btn"
+            aria-label="تغيير الوضع"
+          >
+            <span class="theme-icon">🌙</span>
+          </button>
+        </nav>
+
         <button
           class="hamburger-btn"
           id="mobile-menu-toggle"
@@ -35,10 +56,11 @@
     <!-- ===== القائمة الجانبية الرئيسية (للجوال) ===== -->
     <aside class="mobile-sidebar" id="mobile-sidebar">
       <nav class="mobile-sidebar__nav">
+        <a href="index.html" class="mobile-sidebar__link">الرئيسية</a>
         <a
-          href="index.html"
+          href="reader.html"
           class="mobile-sidebar__link mobile-sidebar__link--active"
-          >الرئيسية</a
+          >قارئ المحاضرات</a
         >
         <a href="#" class="mobile-sidebar__link">أناتومي</a>
         <a href="#" class="mobile-sidebar__link">فسيولوجي</a>
@@ -47,11 +69,10 @@
         <div class="mobile-sidebar__theme-section">
           <span class="mobile-sidebar__theme-label">الوضع البصري:</span>
           <button
-            id="theme-toggle"
-            class="sidebar-theme-btn"
+            class="theme-toggle-btn sidebar-theme-btn"
             aria-label="تغيير الوضع"
           >
-            <span id="theme-icon">🌙</span>
+            <span class="theme-icon">🌙</span>
           </button>
         </div>
       </nav>

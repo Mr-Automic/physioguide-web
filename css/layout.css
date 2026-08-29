@@ -30,6 +30,12 @@
   color: var(--primary-color);
 }
 
+.navbar__nav {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
 .navbar__link {
   text-decoration: none;
   color: var(--text-color);
@@ -44,6 +50,13 @@
 .navbar__link--active {
   color: var(--accent-color);
   background-color: rgba(128, 128, 128, 0.1);
+}
+
+/* إخفاء روابط شريط التنقل على الجوال (تظهر داخل القائمة الجانبية بدلاً منها) */
+@media (max-width: 768px) {
+  .navbar__nav {
+    display: none;
+  }
 }
 
 /* الحاوية الرئيسية (Main Content) */
