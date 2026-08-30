@@ -1,0 +1,169 @@
+/* ============================================
+   قسم البطل (Hero) — الصفحة الرئيسية
+   ============================================ */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(160deg, #eef6ff 0%, #ffffff 55%, #f8fbff 100%);
+  border-bottom: 1px solid rgba(128, 128, 128, 0.12);
+}
+
+[data-theme="dark"] .hero {
+  background: linear-gradient(160deg, #0f1c2e 0%, #121212 70%);
+  border-bottom-color: rgba(255, 255, 255, 0.06);
+}
+
+.hero__container {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 56px 20px 64px;
+  text-align: center;
+}
+
+/* شارة الترحيب الديناميكية */
+.greeting-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 22px;
+  border: 1px solid transparent;
+}
+
+.greeting-badge--morning {
+  background-color: #fef3c7;
+  color: #854d0e;
+  border-color: #fde68a;
+}
+
+.greeting-badge--evening {
+  background-color: #1e293b;
+  color: #e2e8f0;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .greeting-badge--morning {
+  background-color: #3a2f0e;
+  color: #fde68a;
+  border-color: rgba(253, 230, 138, 0.35);
+}
+
+[data-theme="dark"] .greeting-badge--evening {
+  background-color: #0f172a;
+  color: #cbd5e1;
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.hero__title {
+  font-size: clamp(1.9rem, 5.5vw, 3.2rem);
+  font-weight: 800;
+  line-height: 1.25;
+  color: var(--primary-color);
+  margin: 0 0 16px;
+}
+
+.hero__highlight {
+  color: var(--accent-color);
+}
+
+.hero__subtitle {
+  max-width: 640px;
+  margin: 0 auto 30px;
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: #475569;
+}
+
+[data-theme="dark"] .hero__subtitle {
+  color: #cbd5e1;
+}
+
+/* حقل البحث + زر البدء */
+.hero__search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.hero__search-field {
+  position: relative;
+  flex: 1 1 260px;
+  min-width: 220px;
+}
+
+.hero__search-field svg {
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.hero__search-input {
+  width: 100%;
+  padding: 14px 46px 14px 16px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  border-radius: 999px;
+  font-size: 1rem;
+  font-family: inherit;
+  color: var(--text-color);
+  background-color: var(--surface-color);
+  transition:
+    border-color var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease;
+}
+
+.hero__search-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+}
+
+.hero__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background-color: #2563eb;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color var(--transition-speed) ease,
+    transform var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease;
+}
+
+.hero__cta:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35);
+}
+
+.hero__cta svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (min-width: 640px) {
+  .hero__container {
+    padding: 72px 24px 84px;
+  }
+}

@@ -1,0 +1,198 @@
+/* ============================================
+   الأقسام الأكاديمية + بطاقة "من نحن" + روابط التذييل
+   ============================================ */
+
+.categories {
+  padding: 56px 0 20px;
+}
+
+.section-head {
+  max-width: 640px;
+  margin: 0 auto 36px;
+  text-align: center;
+}
+
+.section-head__title {
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  color: var(--primary-color);
+  margin: 0 0 10px;
+}
+
+.section-head__subtitle {
+  margin: 0;
+  line-height: 1.8;
+  color: #475569;
+}
+
+[data-theme="dark"] .section-head__subtitle {
+  color: #cbd5e1;
+}
+
+.categories-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* البطاقة الأكاديمية الداكنة */
+.category-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 24px;
+  border-radius: 16px;
+  background-color: var(--quiz-bg);
+  color: var(--quiz-text);
+  text-decoration: none;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+  transition:
+    transform var(--transition-speed) ease,
+    box-shadow var(--transition-speed) ease,
+    background-color var(--transition-speed) ease;
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.32);
+}
+
+.category-card:focus-visible {
+  outline: 3px solid var(--quiz-accent);
+  outline-offset: 3px;
+}
+
+.category-card--hidden {
+  display: none;
+}
+
+.category-card__count {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background-color: #facc15;
+  color: #1e293b;
+  font-size: 0.8rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+
+.category-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 6px;
+  border-radius: 14px;
+  background-color: rgba(56, 189, 248, 0.14);
+  color: var(--quiz-accent);
+}
+
+.category-card__icon svg {
+  width: 26px;
+  height: 26px;
+}
+
+.category-card__title {
+  font-size: 1.25rem;
+  color: var(--quiz-text);
+  margin: 0;
+}
+
+.category-card__subtitle {
+  color: var(--quiz-muted);
+  font-size: 0.95rem;
+}
+
+.category-card__meta {
+  width: 100%;
+  color: var(--quiz-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(148, 163, 184, 0.18);
+  padding-top: 12px;
+  margin-top: 6px;
+}
+
+/* بطاقة "من نحن" */
+.about {
+  padding: 20px 0 64px;
+}
+
+.about-card {
+  max-width: 720px;
+  margin: 0 auto;
+  background-color: var(--quiz-bg);
+  color: var(--quiz-text);
+  border-radius: 18px;
+  padding: 32px 24px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.22);
+}
+
+.about-card__title {
+  font-size: 1.5rem;
+  color: var(--quiz-text);
+  margin: 0 0 14px;
+}
+
+.about-card__text {
+  color: var(--quiz-muted);
+  line-height: 2;
+  margin: 0 0 24px;
+}
+
+.about-card__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.about-card__links a {
+  color: var(--quiz-accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 8px 16px;
+  border: 1px solid rgba(56, 189, 248, 0.35);
+  border-radius: 999px;
+  transition:
+    background-color var(--transition-speed) ease,
+    color var(--transition-speed) ease;
+}
+
+.about-card__links a:hover {
+  background-color: rgba(56, 189, 248, 0.16);
+}
+
+/* تذييل الموقع */
+.site-footer {
+  border-top: 1px solid rgba(128, 128, 128, 0.16);
+  background-color: var(--surface-color);
+  padding: 24px 0;
+  transition: background-color var(--transition-speed) ease;
+}
+
+.site-footer__container {
+  text-align: center;
+}
+
+.site-footer p {
+  color: var(--text-color);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+/* الاستجابة للشاشات الأكبر */
+@media (min-width: 640px) {
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

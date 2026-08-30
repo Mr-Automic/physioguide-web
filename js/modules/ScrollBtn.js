@@ -1,46 +1,90 @@
+/**
+ * زر التمرير الدائري (Circular Scroll-to-Top):
+ * زر عائم بخلفية زجاجية (Glassmorphism) مع حلقة SVG تُعبّأ تدريجياً
+ * (0% → 100%) حسب نسبة التمرير الكلية في الصفحة.
+ */
 export default class ScrollBtn {
   constructor() {
-    // جلب العنصر من شجرة الـ DOM
-    this.scrollBtn = document.getElementById("smartScrollBtn");
+    this.btn = document.getElementById("smartScrollBtn");
 
-    // التحقق المنطقي: إذا لم يكن الزر موجوداً في الصفحة، أوقف التنفيذ لمنع الأخطاء
-    if (!this.scrollBtn) {
+    if (!this.btn) {
       console.warn("ScrollBtn element not found in the DOM.");
       return;
     }
 
-    // تشغيل الأحداث
-    this.init();
+    this.ring = null;
+    this.circumference = 0;
+
+    this.buildMarkup();
+    this.bindEvents();
+    this.update();
   }
 
-  init() {
-    // نستخدم الدوال السهمية (Arrow Functions) لضمان أن 'this' تشير إلى الكلاس وليس إلى العنصر الذي أطلق الحدث
-    window.addEventListener("scroll", () => this.handleScroll());
-    this.scrollBtn.addEventListener("click", () => this.handleClick());
+  // بناء البنية الداخلية للزر (حلقة التقدم + سهم الصعود) بشكل ديناميكي
+  buildMarkup() {
+    const ringRadius = 20;
+
+    // إعادة بناء الهيكل بشكل موحّد ليعمل على جميع الصفحات
+    this.btn.innerHTML = `
+      <svg class="scroll-btn__svg" viewBox="0 0 48 48" aria-hidden="true">
+        <circle class="scroll-btn__track" cx="24" cy="24" r="${ringRadius}"></circle>
+        <circle class="scroll-btn__ring" cx="24" cy="24" r="${ringRadius}"></circle>
+      </svg>
+      <svg
+        class="scroll-btn__arrow"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    `;
+
+    this.ring = this.btn.querySelector(".scroll-btn__ring");
+    this.circumference = 2 * Math.PI * ringRadius;
+
+    if (this.ring) {
+      this.ring.style.strokeDasharray = `${this.circumference}`;
+      this.ring.style.strokeDashoffset = `${this.circumference}`;
+    }
   }
 
-  handleScroll() {
-    // مراقبة التمرير لتغيير حالة الزر (أعلى/أسفل)
-    // العتبة 400px: يظهر الزر فقط بعد تجاوزها لئلا يحجب بداية المقال
-    if (
-      document.body.scrollTop > 400 ||
-      document.documentElement.scrollTop > 400
-    ) {
-      this.scrollBtn.classList.remove("scroll-btn--hidden");
-      this.scrollBtn.classList.add("scroll-up");
+  bindEvents() {
+    window.addEventListener("scroll", () => this.update(), { passive: true });
+    window.addEventListener("resize", () => this.update(), { passive: true });
+    this.btn.addEventListener("click", () => this.scrollToTop());
+  }
+
+  // حساب نسبة التمرير وتحديث الحلقة وحالة الظهور
+  update() {
+    const scrollTop =
+      window.scrollY ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+
+    const doc = document.documentElement;
+    const scrollable = doc.scrollHeight - doc.clientHeight;
+    const progress =
+      scrollable > 0 ? Math.min(1, Math.max(0, scrollTop / scrollable)) : 0;
+
+    if (this.ring) {
+      this.ring.style.strokeDashoffset = `${this.circumference * (1 - progress)}`;
+    }
+
+    // يظهر الزر فقط بعد تجاوز 200px
+    if (scrollTop > 200) {
+      this.btn.classList.remove("scroll-btn--hidden");
     } else {
-      this.scrollBtn.classList.remove("scroll-up");
-      this.scrollBtn.classList.add("scroll-btn--hidden");
+      this.btn.classList.add("scroll-btn--hidden");
     }
   }
 
-  handleClick() {
-    // الصعود للأعلى (الزر يظهر فقط بعد التمرير 400px)
-    if (this.scrollBtn.classList.contains("scroll-up")) {
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth",
-      });
-    }
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 }

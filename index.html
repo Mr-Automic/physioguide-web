@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="منصة PhysioGuide الأكاديمية - شروحات واختبارات تفاعلية لطلاب العلاج الطبيعي."
+      content="منصة PhysioGuide الأكاديمية — شروحات واختبارات تفاعلية لطلاب السنة الأولى في العلاج الطبيعي بجامعة الأردن."
     />
-    <title>PhysioGuide</title>
+    <title>PhysioGuide — بوابتك الأكاديمية للعلاج الطبيعي</title>
 
     <link rel="stylesheet" href="css/style.css" />
 
@@ -18,32 +18,23 @@
     </script>
   </head>
   <body>
+    <!-- ===== شريط التنقل العلوي ===== -->
     <header class="navbar">
       <div class="container navbar__container">
         <div class="navbar__logo">PhysioGuide</div>
 
         <nav class="navbar__nav" aria-label="التنقل الرئيسي">
-          <a href="index.html" class="navbar__link navbar__link--active"
-            >الرئيسية</a
-          >
+          <a href="index.html" class="navbar__link navbar__link--active">الرئيسية</a>
+          <a href="#categories" class="navbar__link">الأقسام</a>
+          <a href="#about" class="navbar__link">من نحن</a>
           <a href="reader.html" class="navbar__link">قارئ المحاضرات</a>
-          <a href="#" class="navbar__link">أناتومي</a>
-          <a href="#" class="navbar__link">فسيولوجي</a>
-          <a href="#" class="navbar__link">تمارين</a>
 
-          <button
-            class="theme-toggle-btn sidebar-theme-btn"
-            aria-label="تغيير الوضع"
-          >
+          <button class="theme-toggle-btn sidebar-theme-btn" aria-label="تغيير الوضع">
             <span class="theme-icon">🌙</span>
           </button>
         </nav>
 
-        <button
-          class="hamburger-btn"
-          id="mobile-menu-toggle"
-          aria-label="افتح القائمة"
-        >
+        <button class="hamburger-btn" id="mobile-menu-toggle" aria-label="افتح القائمة">
           <span class="hamburger-btn__line"></span>
           <span class="hamburger-btn__line"></span>
           <span class="hamburger-btn__line"></span>
@@ -51,24 +42,41 @@
       </div>
     </header>
 
+    <!-- ===== القائمة الجانبية (Drawer) ===== -->
     <aside class="mobile-sidebar" id="mobile-sidebar">
       <nav class="mobile-sidebar__nav">
-        <a
-          href="index.html"
-          class="mobile-sidebar__link mobile-sidebar__link--active"
-          >الرئيسية</a
-        >
-        <a href="reader.html" class="mobile-sidebar__link">قارئ المحاضرات</a>
-        <a href="#" class="mobile-sidebar__link">أناتومي</a>
-        <a href="#" class="mobile-sidebar__link">فسيولوجي</a>
-        <a href="#" class="mobile-sidebar__link">تمارين</a>
+        <a href="index.html" class="mobile-sidebar__link mobile-sidebar__link--active">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>الرئيسية</span>
+        </a>
+        <a href="#categories" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+          <span>الأقسام الأكاديمية</span>
+        </a>
+        <a href="#about" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>من نحن</span>
+        </a>
+        <a href="reader.html" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
+          <span>قارئ المحاضرات</span>
+        </a>
+        <a href="#" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle><line x1="8.75" y1="8.75" x2="15.25" y2="15.25"></line></svg>
+          <span>أناتومي</span>
+        </a>
+        <a href="#" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          <span>فسيولوجي</span>
+        </a>
+        <a href="#" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>تمارين</span>
+        </a>
 
         <div class="mobile-sidebar__theme-section">
           <span class="mobile-sidebar__theme-label">الوضع البصري:</span>
-          <button
-            class="theme-toggle-btn sidebar-theme-btn"
-            aria-label="تغيير الوضع"
-          >
+          <button class="theme-toggle-btn sidebar-theme-btn" aria-label="تغيير الوضع">
             <span class="theme-icon">🌙</span>
           </button>
         </div>
@@ -77,45 +85,113 @@
 
     <div class="overlay" id="sidebar-overlay"></div>
 
-    <main class="container">
-      <section class="content-section">
-        <h2 class="content-section__title">أحدث المفاهيم والتمارين</h2>
+    <main>
+      <!-- ===== قسم البطل (Hero) ===== -->
+      <section class="hero" id="home">
+        <div class="container hero__container">
+          <span class="greeting-badge" id="greeting-badge" role="status" aria-live="polite"></span>
 
-        <div class="cards-grid">
-          <article class="card">
-            <div class="card__image">
-              <img
-                src="images/rotator-cuff.jpg"
-                alt="تمرين تأهيل الكفة المدورة"
-              />
-            </div>
-            <div class="card__body">
-              <span class="badge badge--primary">تمارين عملية</span>
-              <h3 class="card__title">تأهيل الكفة المدورة (Rotator Cuff)</h3>
-              <p class="card__text">
-                شرح مبسط للحركات الميكانيكية والعضلات المستهدفة في هذا
-                التمرين...
-              </p>
-              <a href="article.html" class="card__link">اقرأ التفاصيل &larr;</a>
-            </div>
-          </article>
+          <h1 class="hero__title">
+            بوابتك الأكاديمية الشاملة
+            <span class="hero__highlight">للعلاج الطبيعي</span>
+          </h1>
 
-          <article class="card">
-            <div class="card__image">
-              <img src="images/knee-joint.jpg" alt="مفصل الركبه" />
+          <p class="hero__subtitle">
+            شروحات مبسّطة، ملخّصات مركّزة، واختبارات تفاعلية موجّهة لطلاب السنة
+            الأولى في العلاج الطبيعي — جامعة الأردن.
+          </p>
+
+          <div class="hero__search">
+            <div class="hero__search-field">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+              <input type="search" id="category-search" class="hero__search-input" placeholder="ابحث عن مادة أو قسم دراسي…" aria-label="ابحث عن الأقسام الأكاديمية" autocomplete="off" />
             </div>
-            <div class="card__body">
-              <span class="badge badge--info">أناتومي</span>
-              <h3 class="card__title">تشريح مفصل الركبة</h3>
-              <p class="card__text">
-                نظرة شاملة على الأربطة والغضاريف وحركة المفصل الأساسية...
-              </p>
-              <a href="#" class="card__link">اقرأ التفاصيل &larr;</a>
-            </div>
+            <a href="reader.html" class="hero__cta">
+              ابدأ التعلم
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== الأقسام الأكاديمية ===== -->
+      <section class="categories" id="categories">
+        <div class="container">
+          <header class="section-head">
+            <h2 class="section-head__title">الأقسام الأكاديمية</h2>
+            <p class="section-head__subtitle">
+              استكشف المواد الأساسية للسنة الأولى وتقدّم في دراستك خطوة بخطوة.
+            </p>
+          </header>
+
+          <div class="categories-grid" id="categories-grid">
+            <a href="reader.html" class="category-card" data-search="تشريح الأطراف anatomy أناتومي">
+              <span class="category-card__count">3 دروس</span>
+              <span class="category-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle><line x1="8.75" y1="8.75" x2="15.25" y2="15.25"></line></svg>
+              </span>
+              <h3 class="category-card__title">تشريح الأطراف</h3>
+              <p class="category-card__subtitle">Anatomy of Extremities</p>
+              <p class="category-card__meta">السنة الأولى · الفصل الأول</p>
+            </a>
+
+            <a href="reader.html" class="category-card" data-search="فسيولوجيا طبية physiology فسيولوجي">
+              <span class="category-card__count">4 دروس</span>
+              <span class="category-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+              </span>
+              <h3 class="category-card__title">فسيولوجيا طبية 1</h3>
+              <p class="category-card__subtitle">Medical Physiology 1</p>
+              <p class="category-card__meta">السنة الأولى · الفصل الأول</p>
+            </a>
+
+            <a href="reader.html" class="category-card" data-search="بيوميكانيك biomechanics ميكانيكا حيوية">
+              <span class="category-card__count">2 دروس</span>
+              <span class="category-card__icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              </span>
+              <h3 class="category-card__title">بيوميكانيك</h3>
+              <p class="category-card__subtitle">Biomechanics</p>
+              <p class="category-card__meta">السنة الأولى · الفصل الثاني</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== من نحن ===== -->
+      <section class="about" id="about">
+        <div class="container">
+          <article class="about-card">
+            <h2 class="about-card__title">من نحن</h2>
+            <p class="about-card__text">
+              PhysioGuide مبادرة أكاديمية مفتوحة المصدر موجّهة لطلاب السنة الأولى
+              في العلاج الطبيعي بجامعة الأردن. نقدّم شروحات مبسّطة وملخّصات مركّزة
+              واختبارات تفاعلية مجانية لمساعدتك على إتقان التشريح والفسيولوجيا
+              والميكانيكا الحيوية.
+            </p>
+            <nav class="about-card__links" aria-label="روابط سريعة">
+              <a href="index.html">الرئيسية</a>
+              <a href="#categories">الأقسام</a>
+              <a href="#privacy">سياسة الخصوصية</a>
+            </nav>
           </article>
         </div>
       </section>
     </main>
+
+    <!-- ===== تذييل الموقع ===== -->
+    <footer class="site-footer">
+      <div class="container site-footer__container">
+        <p>© 2026 PhysioGuide — مبادرة أكاديمية مفتوحة لطلاب العلاج الطبيعي.</p>
+      </div>
+    </footer>
+
+    <!-- ===== زر التمرير الدائري ===== -->
+    <button id="smartScrollBtn" class="scroll-btn scroll-btn--hidden" aria-label="الصعود إلى الأعلى">
+      <svg class="scroll-btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <polyline points="18 15 12 9 6 15"></polyline>
+      </svg>
+    </button>
 
     <script src="js/script.js" type="module"></script>
   </body>
