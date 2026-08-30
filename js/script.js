@@ -11,12 +11,13 @@ document.addEventListener("DOMContentLoaded", () => {
   new ScrollBtn();
   new GreetingManager();
 
-  // بحث مباشر داخل شبكة الأقسام الأكاديمية
+  // بحث مباشر + روابط الفلترة داخل شبكة الأقسام الأكاديمية
   initCategorySearch();
 });
 
 /**
- * تصفية بطاقات الأقسام الأكاديمية بناءً على نص البحث.
+ * تصفية بطاقات الأقسام الأكاديمية بناءً على نص البحث،
+ * مع دعم روابط الفلترة في القائمة الجانبية (أناتومي / فسيولوجي / تمارين).
  */
 function initCategorySearch() {
   const searchInput = document.getElementById("category-search");
@@ -26,16 +27,27 @@ function initCategorySearch() {
 
   const cards = Array.from(grid.querySelectorAll(".category-card"));
 
-  searchInput.addEventListener("input", () => {
-    const query = searchInput.value.trim().toLowerCase();
+  const applyFilter = (query) => {
+    const q = query.trim().toLowerCase();
 
     cards.forEach((card) => {
       const haystack = (
         card.dataset.search || card.textContent || ""
       ).toLowerCase();
-      const isMatch = query === "" || haystack.includes(query);
+      const isMatch = q === "" || haystack.includes(q);
 
       card.classList.toggle("category-card--hidden", !isMatch);
+    });
+  };
+
+  searchInput.addEventListener("input", () => applyFilter(searchInput.value));
+
+  // روابط الفلترة داخل القائمة الجانبية
+  document.querySelectorAll("[data-filter]").forEach((link) => {
+    link.addEventListener("click", () => {
+      const term = link.getAttribute("data-filter") || "";
+      searchInput.value = term;
+      applyFilter(term);
     });
   });
 }

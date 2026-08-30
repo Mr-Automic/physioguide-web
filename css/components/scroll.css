@@ -4,11 +4,11 @@
 
 .scroll-btn {
   position: fixed;
-  bottom: 28px;
-  right: 20px;
+  left: 20px;
+  bottom: 25px;
   width: 58px;
   height: 58px;
-  border: 1px solid rgba(255, 255, 255, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 50%;
   cursor: pointer;
   z-index: 1000;
@@ -16,27 +16,19 @@
   align-items: center;
   justify-content: center;
 
-  /* خلفية زجاجية (Glassmorphism) */
-  background-color: rgba(255, 255, 255, 0.45);
-  -webkit-backdrop-filter: blur(12px) saturate(160%);
-  backdrop-filter: blur(12px) saturate(160%);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
-  color: #1e293b;
+  /* خلفية زجاجية داكنة أكثر شفافية مع ضبابية أعلى */
+  background: rgba(15, 23, 42, 0.45);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  color: #f8fafc;
 
   opacity: 1;
   visibility: visible;
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease,
-    transform 0.3s ease,
-    background-color 0.3s ease;
-}
-
-[data-theme="dark"] .scroll-btn {
-  background-color: rgba(30, 30, 30, 0.45);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: #f8fafc;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    transform 0.3s ease;
 }
 
 .scroll-btn:hover {
@@ -62,29 +54,20 @@
 .scroll-btn__track,
 .scroll-btn__ring {
   fill: none;
-  stroke-width: 4;
+  stroke-width: 2.5; /* سمك نحيف وأنيق */
   stroke-linecap: round;
 }
 
 .scroll-btn__track {
-  stroke: rgba(15, 23, 42, 0.14);
-}
-
-[data-theme="dark"] .scroll-btn__track {
-  stroke: rgba(255, 255, 255, 0.16);
+  stroke: rgba(255, 255, 255, 0.18);
 }
 
 .scroll-btn__ring {
-  /* لون كهرماني يحقق تباين AA */
-  stroke: #d97706;
+  stroke: #facc15; /* لون أصفر واضح على الخلفية الداكنة */
   transition: stroke-dashoffset 0.12s linear;
 }
 
-[data-theme="dark"] .scroll-btn__ring {
-  stroke: #facc15;
-}
-
-/* سهم الصعود */
+/* سهم الصعود (في المنتصف) */
 .scroll-btn__arrow {
   position: relative;
   width: 24px;
@@ -93,8 +76,8 @@
 
 @media (max-width: 768px) {
   .scroll-btn {
+    left: 16px;
     bottom: 22px;
-    right: 16px;
     width: 50px;
     height: 50px;
   }

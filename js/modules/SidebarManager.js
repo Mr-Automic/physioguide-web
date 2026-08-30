@@ -24,6 +24,11 @@ export default class SidebarManager {
     document.addEventListener("keydown", (e) => {
       if (e.key === "Escape" && this.isOpen) this.close();
     });
+
+    // إغلاق تلقائي عند النقر على أي رابط داخل القائمة
+    this.sidebar.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => this.close());
+    });
   }
 
   toggle() {
