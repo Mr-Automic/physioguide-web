@@ -7,7 +7,7 @@
       name="description"
       content="منصة PhysioGuide الأكاديمية - شروحات واختبارات تفاعلية لطلاب العلاج الطبيعي."
     />
-    <title>قارئ المحاضرات — PhysioGuide</title>
+    <title>تشريح مفصل الركبة — PhysioGuide</title>
 
     <link rel="stylesheet" href="css/style.css" />
 
@@ -19,6 +19,9 @@
   </head>
 
   <body>
+    <!-- شريط تقدم القراءة العلوي -->
+    <div class="reader-progress-bar" id="reader-progress-bar"></div>
+
     <!-- ===== شريط التنقل العلوي الثابت (Sticky Top Navigation) ===== -->
     <header class="navbar">
       <div class="container navbar__container">
@@ -26,12 +29,8 @@
 
         <nav class="navbar__nav" aria-label="التنقل الرئيسي">
           <a href="index.html" class="navbar__link">الرئيسية</a>
-          <a href="reader.html" class="navbar__link navbar__link--active"
-            >قارئ المحاضرات</a
-          >
-          <a href="#" class="navbar__link">أناتومي</a>
-          <a href="#" class="navbar__link">فسيولوجي</a>
-          <a href="#" class="navbar__link">تمارين</a>
+          <a href="index.html#categories" class="navbar__link">الأقسام</a>
+          <a href="index.html#about" class="navbar__link">من نحن</a>
 
           <button
             class="theme-toggle-btn sidebar-theme-btn"
@@ -56,15 +55,30 @@
     <!-- ===== القائمة الجانبية الرئيسية (للجوال) ===== -->
     <aside class="mobile-sidebar" id="mobile-sidebar">
       <nav class="mobile-sidebar__nav">
-        <a href="index.html" class="mobile-sidebar__link">الرئيسية</a>
-        <a
-          href="reader.html"
-          class="mobile-sidebar__link mobile-sidebar__link--active"
-          >قارئ المحاضرات</a
-        >
-        <a href="#" class="mobile-sidebar__link">أناتومي</a>
-        <a href="#" class="mobile-sidebar__link">فسيولوجي</a>
-        <a href="#" class="mobile-sidebar__link">تمارين</a>
+        <a href="index.html" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span>الرئيسية</span>
+        </a>
+        <a href="index.html#categories" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>
+          <span>الأقسام الأكاديمية</span>
+        </a>
+        <a href="index.html#categories" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle><line x1="8.75" y1="8.75" x2="15.25" y2="15.25"></line></svg>
+          <span>أناتومي</span>
+        </a>
+        <a href="index.html#categories" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+          <span>فسيولوجي</span>
+        </a>
+        <a href="index.html#categories" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span>تمارين</span>
+        </a>
+        <a href="index.html#about" class="mobile-sidebar__link">
+          <svg class="mobile-sidebar__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+          <span>من نحن</span>
+        </a>
 
         <div class="mobile-sidebar__theme-section">
           <span class="mobile-sidebar__theme-label">الوضع البصري:</span>
@@ -113,6 +127,7 @@
               <span class="reader-content__meta-item">
                 تاريخ النشر: 29 أغسطس 2026
               </span>
+              <span class="reader-content__meta-item reader-content__reading-time">⏱️ 4 دقائق قراءة</span>
             </div>
           </header>
 
@@ -231,9 +246,25 @@
       </svg>
     </button>
 
-    <!-- زر فتح الفهرس (يظهر على الجوال فقط) -->
+    <!-- زر فتح الفهرس (تبويب جانبي لاصق على الجوال) -->
     <button class="toc-toggle" id="toc-toggle-btn" aria-label="فتح الفهرس">
-      📑 الفهرس
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <line x1="8" y1="6" x2="21" y2="6"></line>
+        <line x1="8" y1="12" x2="21" y2="12"></line>
+        <line x1="8" y1="18" x2="21" y2="18"></line>
+        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+      </svg>
+      <span>الفهرس</span>
     </button>
 
     <script src="js/reader.js" type="module"></script>

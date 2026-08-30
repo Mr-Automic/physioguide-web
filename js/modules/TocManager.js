@@ -1,4 +1,4 @@
-// وحدة الفهرس الجانبي: توليد روابط تلقائية من عناوين الأقسام داخل منطقة القراءة
+// وحدة الفهرس الجانبي + تحسينات القارئ (شريط التقدم وشارات المصطلحات الطبية)
 export default class TocManager {
   /**
    * @param {HTMLElement} navContainer - عنصر الـ <nav> الذي سيحتوي الروابط
@@ -31,6 +31,8 @@ export default class TocManager {
     this.buildToc();
     this.initScrollSpy();
     this.initControls();
+    this.initProgressBar();
+    this.applyTermBadges();
   }
 
   // بناء الفهرس: استخراج عناوين الأقسام وإعطاء معرفات تلقائية للمقاطع بدون معرف
@@ -136,5 +138,86 @@ export default class TocManager {
     this.sidebar.classList.remove("toc-sidebar--open");
     if (this.overlay) this.overlay.classList.remove("overlay--visible");
     document.body.style.overflow = "";
+  }
+
+  // شريط تقدم القراءة العلوي: يمتلئ أفقياً أثناء التمرير داخل الدرس
+  initProgressBar() {
+    this.progressBar = document.getElementById("reader-progress-bar");
+    if (!this.progressBar || !this.contentRoot) return;
+
+    const update = () => {
+      const rect = this.contentRoot.getBoundingClientRect();
+      const viewportHeight =
+        window.innerHeight || document.documentElement.clientHeight;
+      const total = this.contentRoot.offsetHeight - viewportHeight;
+
+      let scrolled = -rect.top;
+      if (scrolled < 0) scrolled = 0;
+      if (total > 0 && scrolled > total) scrolled = total;
+
+      const progress = total > 0 ? scrolled / total : 0;
+      this.progressBar.style.transform = `scaleX(${progress})`;
+    };
+
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update, { passive: true });
+    update();
+  }
+
+  // تحويل المصطلحات/الاختصارات الطبية الإنجليزية داخل الأقواس إلى شارات صغيرة
+  applyTermBadges() {
+    if (!this.contentRoot) return;
+
+    const targets = this.contentRoot.querySelectorAll(
+      ".reader-section p, .article__list-item",
+    );
+
+    targets.forEach((el) => this.wrapLatinParentheses(el));
+  }
+
+  wrapLatinParentheses(el) {
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const textNodes = [];
+    let node;
+    while ((node = walker.nextNode())) {
+      textNodes.push(node);
+    }
+
+    // فقط المصطلحات اللاتينية داخل الأقواس (تجاهل الأقواس العربية التوضيحية)
+    const pattern = /\([A-Za-z][^()]*\)/g;
+
+    textNodes.forEach((textNode) => {
+      const text = textNode.textContent;
+      if (!pattern.test(text)) {
+        pattern.lastIndex = 0;
+        return;
+      }
+      pattern.lastIndex = 0;
+
+      const fragment = document.createDocumentFragment();
+      let lastIndex = 0;
+      let match;
+
+      while ((match = pattern.exec(text)) !== null) {
+        if (match.index > lastIndex) {
+          fragment.appendChild(
+            document.createTextNode(text.slice(lastIndex, match.index)),
+          );
+        }
+
+        const badge = document.createElement("span");
+        badge.className = "term-badge";
+        badge.textContent = match[0];
+        fragment.appendChild(badge);
+
+        lastIndex = pattern.lastIndex;
+      }
+
+      if (lastIndex < text.length) {
+        fragment.appendChild(document.createTextNode(text.slice(lastIndex)));
+      }
+
+      textNode.parentNode.replaceChild(fragment, textNode);
+    });
   }
 }
