@@ -4,6 +4,7 @@ import SidebarManager from "./modules/SidebarManager.js";
 import ScrollBtn from "./modules/ScrollBtn.js";
 import TocManager from "./modules/TocManager.js";
 import QuizEngine from "./modules/QuizEngine.js";
+import AnatomyExploder from "./modules/AnatomyExploder.js";
 
 document.addEventListener("DOMContentLoaded", () => {
   // المكونات المشتركة مع بقية صفحات الموقع
@@ -42,5 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
         // في حال تعذر التحميل، يعمل المحرك ببياناته المدمجة
         new QuizEngine(quizContainer, quizScore);
       });
+  }
+
+  // تهيئة مختبر التفكيك التفاعلي (عظام اليد والرسغ)
+  const svgContainer = document.getElementById("svg-container");
+  if (svgContainer) {
+    new AnatomyExploder("#svg-container", {
+      svgUrl: "images/carpal_hand.svg",
+      explodeButton: "#btn-explode",
+      assembleButton: "#btn-assemble",
+    });
   }
 });
