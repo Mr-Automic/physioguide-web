@@ -50,8 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
   if (svgContainer) {
     new AnatomyExploder("#svg-container", {
       svgUrl: "images/carpal_hand.svg",
-      explodeButton: "#btn-explode",
-      assembleButton: "#btn-assemble",
     });
   }
 });

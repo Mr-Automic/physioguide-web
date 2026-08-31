@@ -17,27 +17,20 @@
       <h1 class="interactive-header__title">مختبر التشريح التفاعلي: عظام اليد والرسغ</h1>
       <p class="interactive-header__subtitle">
         نموذج تفجيري (Exploded View) لعظام الرسغ — مرّر المؤشر فوق أي عظمة لإبرازها،
-        ثم استخدم الأزرار أدناه لتفكيك العظام أو إعادة تجميعها.
+        ثم انقر في أي مكان على اليد لتفكيك العظام أو إعادة تجميعها.
       </p>
     </header>
 
     <main class="interactive-main">
-      <div class="interactive-controls" role="group" aria-label="أدوات التحكم">
-        <button id="btn-explode" class="interactive-btn interactive-btn--explode" type="button" disabled>
-          تفكيك العظام (Explode) 💥
-        </button>
-        <button id="btn-assemble" class="interactive-btn interactive-btn--assemble" type="button" disabled>
-          تجميع (Assemble) 🧩
-        </button>
-      </div>
-
       <div id="svg-container" class="interactive-stage" aria-live="polite">
         <p class="interactive-stage__message">جارِ تحميل النموذج…</p>
       </div>
+
+      <div class="anatomy-tap-hint">👆 انقر على اليد لتفكيك / تجميع العظام</div>
     </main>
 
     <footer class="interactive-footer">
-      <p>جرّب: مرّر المؤشر فوق أي عظمة لإبرازها، ثم اضغط «تفكيك العظام» لمشاهدة العرض التفجيري.</p>
+      <p>جرّب: مرّر المؤشر فوق أي عظمة لإبرازها، ثم انقر على اليد لمشاهدة العرض التفجيري وإعادة التجميع.</p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
@@ -46,8 +39,6 @@
 
       const exploder = new AnatomyExploder("#svg-container", {
         svgUrl: "images/carpal_hand.svg",
-        explodeButton: "#btn-explode",
-        assembleButton: "#btn-assemble",
       });
 
       // للفحص اليدوي من وحدة التحكم عند الحاجة

@@ -183,23 +183,17 @@
               <h2>3. مختبر التفكيك التفاعلي (Exploded View Lab)</h2>
               <p>
                 استكشف عظام الرسغ الثمانية بالنموذج التفاعلي أدناه: مرّر المؤشر
-                فوق أي عظمة لعرض اسمها، ثم استخدم زر «تفكيك الأجزاء» لمشاهدة
-                الانفصال الشعاعي للعظام، وزر «تجميع» لإعادتها إلى مكانها.
+                فوق أي عظمة لعرض اسمها، ثم انقر في أي مكان على اليد لتفكيك
+                العظام ومشاهدة الانفصال الشعاعي، وانقر مرة أخرى لإعادتها إلى
+                مكانها.
               </p>
 
               <div class="anatomy-lab">
-                <div class="interactive-controls" role="group" aria-label="أدوات التحكم بالمختبر">
-                  <button id="btn-explode" class="interactive-btn interactive-btn--explode" type="button" disabled>
-                    تفكيك الأجزاء (Explode View) 💥
-                  </button>
-                  <button id="btn-assemble" class="interactive-btn interactive-btn--assemble" type="button" disabled>
-                    تجميع (Assemble) 🧩
-                  </button>
-                </div>
-
                 <div id="svg-container" class="interactive-stage" aria-live="polite">
                   <p class="interactive-stage__message">جارِ تحميل النموذج…</p>
                 </div>
+
+                <div class="anatomy-tap-hint">👆 انقر على اليد لتفكيك / تجميع العظام</div>
 
                 <div class="anatomy-legend" aria-label="عظام الرسغ الثمانية">
                   <span class="anatomy-legend__chip anatomy-legend__chip--proximal"><span class="anatomy-legend__en">Scaphoid</span><span class="anatomy-legend__ar">العظم الزورقي</span></span>

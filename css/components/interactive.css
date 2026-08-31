@@ -91,61 +91,14 @@
   gap: 20px;
 }
 
-.interactive-controls {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-
-.interactive-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 13px 26px;
-  border-radius: 999px;
-  border: 1px solid transparent;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition:
-    transform var(--interactive-speed) ease,
-    box-shadow var(--interactive-speed) ease,
-    background-color var(--interactive-speed) ease,
-    border-color var(--interactive-speed) ease,
-    opacity var(--interactive-speed) ease;
-}
-
-.interactive-btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-}
-
-.interactive-btn--explode {
-  background-color: var(--interactive-accent-strong);
-  color: #ffffff;
-}
-
-.interactive-btn--explode:not(:disabled):hover,
-.interactive-btn--explode.is-active {
-  background-color: #1d4ed8;
-  transform: translateY(-2px);
-  box-shadow: 0 12px 26px rgba(37, 99, 235, 0.4);
-}
-
-.interactive-btn--assemble {
-  background-color: var(--interactive-surface-2);
-  color: var(--interactive-text);
-  border-color: rgba(148, 163, 184, 0.25);
-}
-
-.interactive-btn--assemble:not(:disabled):hover {
-  border-color: var(--interactive-accent);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 26px rgba(56, 189, 248, 0.25);
+/* تلميح مساعد أسفل المخطط (بديل زرّي التفكيك/التجميع) */
+.anatomy-tap-hint {
+  margin: 12px 0 0;
+  text-align: center;
+  color: var(--interactive-muted);
+  font-size: 0.82rem;
+  line-height: 1.6;
+  opacity: 0.9;
 }
 
 .interactive-stage {
@@ -157,6 +110,7 @@
     inset 0 0 0 1px rgba(255, 255, 255, 0.02),
     0 14px 34px rgba(0, 0, 0, 0.35);
   overflow: hidden;
+  cursor: pointer;
   min-height: 300px;
   display: flex;
   align-items: center;
@@ -167,6 +121,7 @@
   width: 100%;
   height: auto;
   display: block;
+  cursor: pointer;
 }
 
 .interactive-stage__message {
@@ -219,18 +174,23 @@
   will-change: left, top;
 }
 
+/* إحضار الشارة النشطة (عند التمرير/اللمس) إلى المقدمة */
+.anatomy-badge.is-active {
+  z-index: 10;
+}
+
 .anatomy-badge__inner {
   display: inline-flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 7px 13px;
-  border-radius: 12px;
-  background: rgba(15, 23, 42, 0.58);
-  -webkit-backdrop-filter: blur(12px) saturate(150%);
-  backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid rgba(148, 163, 184, 0.32);
-  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+  gap: 1px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: rgba(15, 23, 42, 0.62);
+  -webkit-backdrop-filter: blur(10px) saturate(150%);
+  backdrop-filter: blur(10px) saturate(150%);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
   color: #f1f5f9;
   white-space: nowrap;
   opacity: 0;
@@ -243,15 +203,17 @@
 }
 
 .anatomy-badge__en {
-  font-size: 0.82rem;
+  font-size: 0.72rem;
   font-weight: 800;
   letter-spacing: 0.02em;
+  line-height: 1.2;
   direction: ltr;
 }
 
 .anatomy-badge__ar {
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   font-weight: 600;
+  line-height: 1.2;
   opacity: 0.92;
 }
 
@@ -324,17 +286,5 @@
 
   .interactive-stage {
     min-height: 260px;
-  }
-
-  .anatomy-badge__inner {
-    padding: 5px 9px;
-  }
-
-  .anatomy-badge__en {
-    font-size: 0.72rem;
-  }
-
-  .anatomy-badge__ar {
-    font-size: 0.68rem;
   }
 }

@@ -27,16 +27,33 @@ const BONE_META = {
 
 const ROW_AR_LABEL = { proximal: "الصف القريب", distal: "الصف البعيد" };
 
+// إزاحات التفكيك بالبكسل الشاشي لكل عظمة (اتجاه تشريحي صريح لتوسيع الانتشار وتفادي التصادم):
+// الجانب الكعبري (الإبهام) → يساراً، والجانب الزندي (الخنصر) → يميناً، والوسط → عمودياً.
+const BONE_EXPLODE_OFFSETS = {
+  // الجانب الكعبري (الإبهام)
+  scaphoid: { x: -80, y: -55 },
+  trapezium: { x: -140, y: 0 },
+  trapezoid: { x: -110, y: 55 },
+  // الجانب الزندي (الخنصر)
+  triquetrum: { x: 80, y: -55 },
+  pisiform: { x: 140, y: 0 },
+  hamate: { x: 110, y: 55 },
+  // العظمتان المركزيتان
+  lunate: { x: 0, y: -140 },
+  capitate: { x: 0, y: 140 },
+};
+
+// معامل إبعاد الشارة خارج العظمة (باتجاه التفكيك) حتى لا تغطي الشارة العظمة
+const BADGE_OUTWARD_FACTOR = 1.4;
+
 export default class AnatomyExploder {
   /**
    * @param {string} containerSelector - محدد الحاوية التي سيُحقن فيها SVG
-   * @param {object} options - { svgUrl, explodeButton, assembleButton }
+   * @param {object} options - { svgUrl }
    */
   constructor(containerSelector, options = {}) {
     this.container = document.querySelector(containerSelector);
     this.svgUrl = options.svgUrl || "images/carpal_hand.svg";
-    this.explodeButton = document.querySelector(options.explodeButton || "#btn-explode");
-    this.assembleButton = document.querySelector(options.assembleButton || "#btn-assemble");
 
     this.anime = window.anime;
     this.svgEl = null;
@@ -77,7 +94,6 @@ export default class AnatomyExploder {
       this.positionBadges();
       this.cacheExplodeTargets();
       this.bindControls();
-      this.updateButtons();
     } catch (error) {
       console.error("[AnatomyExploder] فشل تحميل SVG:", error);
       this.renderMessage(`تعذّر تحميل النموذج من المسار: ${this.svgUrl}`);
@@ -207,7 +223,6 @@ export default class AnatomyExploder {
         badgeInner: null,
         badgeBase: { x: 0, y: 0 },
         badgeTarget: { x: 0, y: 0 },
-        pinned: false,
       };
     });
   }
@@ -303,43 +318,38 @@ export default class AnatomyExploder {
   }
 
   /**
-   * يحسب أهداف التفكيك الشعاعي: يدفع كل عظمة بعيداً عن مركز اليد
-   * باتجاه موقعها الحقيقي، مع انتشار دائري احتياطي عند غياب المراكز.
+   * يحسب أهداف التفكيك لكل عظمة بناءً على اتجاه تشريحي صريح:
+   *  - الجانب الكعبري (الإبهام) ينتشر يساراً بعيداً.
+   *  - الجانب الزندي (الخنصر) ينتشر يميناً بعيداً.
+   *  - العظمتان المركزيتان تنفصلان رأسياً (الهلالي للأعلى والرأسي للأسفل).
+   * تُحدَّد الإزاحات بالبكسل الشاشي ثم تُحوَّل لوحدات SVG لتحريك العظام،
+   * بينما تُستعمل مباشرة (مضروبة بعامل الإبعاد) لموضع الشارات خارج العظام.
    */
   cacheExplodeTargets() {
-    const n = this.bones.length;
-    const vb = this.svgEl.viewBox && this.svgEl.viewBox.baseVal;
-    const vbWidth = (vb && vb.width) || this.svgEl.getBoundingClientRect().width || 6000;
-    const basePush = vbWidth * 0.14;
+    const scale = this.scale || 1;
+    // تقليص الانتشار على الشاشات الضيقة حتى لا تخرج العظام خارج حدود العرض
+    const stageWidth = (this.stage && this.stage.offsetWidth) || 480;
+    const dispersion = Math.min(1, stageWidth / 480);
 
-    const centers = this.bones.map((b) => b.center).filter(Boolean);
-    let handCenter = null;
-    if (centers.length) {
-      handCenter = {
-        x: centers.reduce((sum, c) => sum + c.x, 0) / centers.length,
-        y: centers.reduce((sum, c) => sum + c.y, 0) / centers.length,
-      };
-    }
-
-    this.bones.forEach((bone, i) => {
-      let dx;
-      let dy;
-      if (handCenter && bone.center) {
-        dx = bone.center.x - handCenter.x;
-        dy = bone.center.y - handCenter.y;
-        const dist = Math.hypot(dx, dy) || 1;
-        dx /= dist;
-        dy /= dist;
+    this.bones.forEach((bone) => {
+      const offset = BONE_EXPLODE_OFFSETS[bone.key];
+      let px;
+      if (offset) {
+        px = { x: offset.x * dispersion, y: offset.y * dispersion };
       } else {
-        // انتشار قطري منتظم (احتياطي)
+        // انتشار دائري احتياطي لأي عظمة غير معروفة
+        const i = this.bones.indexOf(bone);
+        const n = Math.max(1, this.bones.length);
         const angle = (2 * Math.PI * i) / n;
-        dx = Math.cos(angle);
-        dy = Math.sin(angle);
+        const radius = 120 * dispersion;
+        px = { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius };
       }
 
-      const push = basePush * (0.85 + (i % 3) * 0.12);
-      bone.target = { x: dx * push, y: dy * push };
-      bone.badgeTarget = { x: bone.target.x * this.scale, y: bone.target.y * this.scale };
+      bone.target = { x: px.x / scale, y: px.y / scale };
+      bone.badgeTarget = {
+        x: px.x * BADGE_OUTWARD_FACTOR,
+        y: px.y * BADGE_OUTWARD_FACTOR,
+      };
     });
   }
 
@@ -398,50 +408,41 @@ export default class AnatomyExploder {
   }
 
   bindControls() {
-    if (this.explodeButton) {
-      this.explodeButton.addEventListener("click", () => this.explode());
-    }
-    if (this.assembleButton) {
-      this.assembleButton.addEventListener("click", () => this.assemble());
+    // النقر/اللمس في أي مكان على الحاوية يبدّل بين التفكيك والتجميع
+    const toggleTarget = this.container || this.svgEl;
+    if (toggleTarget) {
+      toggleTarget.addEventListener("click", () => this.toggleExploded());
     }
 
     this.bones.forEach((bone) => {
       bone.outer.addEventListener("mouseenter", () => this.showBadge(bone));
       bone.outer.addEventListener("mouseleave", () => {
-        if (!this.isExploded && !bone.pinned) this.hideBadge(bone);
+        if (!this.isExploded) this.hideBadge(bone);
       });
       bone.outer.addEventListener("focus", () => this.showBadge(bone));
       bone.outer.addEventListener("blur", () => {
-        if (!this.isExploded && !bone.pinned) this.hideBadge(bone);
+        if (!this.isExploded) this.hideBadge(bone);
       });
-      bone.outer.addEventListener("click", () => this.togglePin(bone));
+      // تفعيل بلوحة المفاتيح يطابق سلوك النقر/اللمس
       bone.outer.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          this.togglePin(bone);
+          this.toggleExploded();
         }
       });
     });
 
     window.addEventListener("resize", () => this.handleResize());
-    this.updateButtons();
   }
 
   showBadge(bone) {
     if (bone.badgeInner) bone.badgeInner.classList.add("is-visible");
+    if (bone.badge) bone.badge.classList.add("is-active");
   }
 
   hideBadge(bone) {
     if (bone.badgeInner) bone.badgeInner.classList.remove("is-visible");
-  }
-
-  togglePin(bone) {
-    bone.pinned = !bone.pinned;
-    if (bone.pinned) {
-      this.showBadge(bone);
-    } else if (!this.isExploded) {
-      this.hideBadge(bone);
-    }
+    if (bone.badge) bone.badge.classList.remove("is-active");
   }
 
   showAllBadges() {
@@ -449,10 +450,15 @@ export default class AnatomyExploder {
   }
 
   hideAllBadges() {
-    this.bones.forEach((b) => {
-      b.pinned = false;
-      this.hideBadge(b);
-    });
+    this.bones.forEach((b) => this.hideBadge(b));
+  }
+
+  toggleExploded() {
+    if (this.isExploded) {
+      this.assemble();
+    } else {
+      this.explode();
+    }
   }
 
   explode() {
@@ -483,7 +489,6 @@ export default class AnatomyExploder {
     ];
 
     this.isExploded = true;
-    this.updateButtons();
   }
 
   assemble() {
@@ -514,7 +519,6 @@ export default class AnatomyExploder {
 
     this.isExploded = false;
     this.hideAllBadges();
-    this.updateButtons();
   }
 
   stop() {
@@ -536,17 +540,6 @@ export default class AnatomyExploder {
         }
       });
     }, 120);
-  }
-
-  updateButtons() {
-    if (this.explodeButton) {
-      this.explodeButton.disabled = false;
-      this.explodeButton.classList.toggle("is-active", this.isExploded);
-      this.explodeButton.setAttribute("aria-pressed", String(this.isExploded));
-    }
-    if (this.assembleButton) {
-      this.assembleButton.disabled = false;
-    }
   }
 
   renderMessage(text) {
