@@ -1,63 +1,60 @@
 /**
- * AnatomyExploder — محمّل SVG ديناميكي + عرض تفجيري (Exploded View) لعظام الرسغ.
- *
- * يجلب ملف images/carpal_hand.svg ويحقنه داخل الحاوية، ثم يلتقط العظام الفردية
- * (عناصر تحمل inkscape:label يبدأ بـ "bone-") ويحرّكها باستخدام Anime.js:
- *  - تفكيك (Explode): تشتيت نصف قطري بفيزياء النوابض.
- *  - تجميع (Assemble): إعادة سلسة إلى الموضع الأصلي (0, 0).
- *  - شارات عائمة (Floating Badges): تعرض الاسم الإنجليزي والعربي لكل عظمة
- *    عند التمرير/اللمس أو أثناء حالة التفكيك.
+ * AnatomyExploder — محمّل SVG ديناميكي + تفكيك وتجميع تفاعلي منضبط تشريحياً لعظام الرسغ.
  */
 const SVG_NS = "http://www.w3.org/2000/svg";
-const SHAPE_SELECTOR = "g, path, image, ellipse, circle, rect, polygon, polyline";
-const SHAPE_TAGS = new Set(["path", "ellipse", "circle", "rect", "polygon", "polyline"]);
+const SHAPE_SELECTOR =
+  "g, path, image, ellipse, circle, rect, polygon, polyline";
+const SHAPE_TAGS = new Set([
+  "path",
+  "ellipse",
+  "circle",
+  "rect",
+  "polygon",
+  "polyline",
+]);
 const BONE_LABEL_PREFIX = "bone-";
 
-// بيانات الأسماء ثنائية اللغة لعظام الرسغ الثمانية
+// بيانات الأسماء ثنائية اللغة لعظام الرسغ الثمانية مقسمة تشريحياً
 const BONE_META = {
-  scaphoid: { en: "Scaphoid", ar: "العظم الزورقي", row: "proximal" },
-  lunate: { en: "Lunate", ar: "العظم الهلالي", row: "proximal" },
-  triquetrum: { en: "Triquetrum", ar: "العظم المثلثي", row: "proximal" },
-  pisiform: { en: "Pisiform", ar: "العظم الحمصي", row: "proximal" },
-  trapezium: { en: "Trapezium", ar: "العظم المربعي", row: "distal" },
-  trapezoid: { en: "Trapezoid", ar: "العظم المربعي الصغير", row: "distal" },
-  capitate: { en: "Capitate", ar: "العظم الرأسي", row: "distal" },
-  hamate: { en: "Hamate", ar: "العظم الخطافي", row: "distal" },
+  // الصف القريب (Proximal Row)
+  scaphoid: { en: "Scaphoid", ar: "الزورقي", row: "proximal" },
+  lunate: { en: "Lunate", ar: "الهلالي", row: "proximal" },
+  triquetrum: { en: "Triquetrum", ar: "المثلثي", row: "proximal" },
+  pisiform: { en: "Pisiform", ar: "الحمصي", row: "proximal" },
+  // الصف البعيد (Distal Row)
+  trapezium: { en: "Trapezium", ar: "المربعي", row: "distal" },
+  trapezoid: { en: "Trapezoid", ar: "المنحرفي", row: "distal" },
+  capitate: { en: "Capitate", ar: "الكبير", row: "distal" },
+  hamate: { en: "Hamate", ar: "الكلابي", row: "distal" },
 };
 
 const ROW_AR_LABEL = { proximal: "الصف القريب", distal: "الصف البعيد" };
 
-// إزاحات التفكيك بالبكسل الشاشي لكل عظمة (اتجاه تشريحي صريح لتوسيع الانتشار وتفادي التصادم):
-// الجانب الكعبري (الإبهام) → يساراً، والجانب الزندي (الخنصر) → يميناً، والوسط → عمودياً.
+// إحداثيات انتشار مداري متزن ومحسوب تشريحياً (لا يتجاوز حدود الرسغ ولا يغطي الأصابع أو الساعد)
 const BONE_EXPLODE_OFFSETS = {
-  // الجانب الكعبري (الإبهام)
-  scaphoid: { x: -80, y: -55 },
-  trapezium: { x: -140, y: 0 },
-  trapezoid: { x: -110, y: 55 },
-  // الجانب الزندي (الخنصر)
-  triquetrum: { x: 80, y: -55 },
-  pisiform: { x: 140, y: 0 },
-  hamate: { x: 110, y: 55 },
-  // العظمتان المركزيتان
-  lunate: { x: 0, y: -140 },
-  capitate: { x: 0, y: 140 },
+  // الصف البعيد (Distal) - متباعد للأعلى والأطراف
+  trapezium: { x: -85, y: -25 },
+  trapezoid: { x: -45, y: -65 },
+  capitate: { x: 0, y: -70 },
+  hamate: { x: 65, y: -45 },
+
+  // الصف القريب (Proximal) - متباعد للأسفل والأطراف
+  scaphoid: { x: -75, y: 40 },
+  lunate: { x: 0, y: 55 },
+  triquetrum: { x: 60, y: 45 },
+  pisiform: { x: 85, y: 5 },
 };
 
-// معامل إبعاد الشارة خارج العظمة (باتجاه التفكيك) حتى لا تغطي الشارة العظمة
-const BADGE_OUTWARD_FACTOR = 1.4;
-
 export default class AnatomyExploder {
-  /**
-   * @param {string} containerSelector - محدد الحاوية التي سيُحقن فيها SVG
-   * @param {object} options - { svgUrl }
-   */
   constructor(containerSelector, options = {}) {
     this.container = document.querySelector(containerSelector);
     this.svgUrl = options.svgUrl || "images/carpal_hand.svg";
 
     this.anime = window.anime;
     this.svgEl = null;
-    this.stage = this.container ? this.container.closest(".interactive-stage") || this.container : null;
+    this.stage = this.container
+      ? this.container.closest(".interactive-stage") || this.container
+      : null;
     this.badgeLayer = null;
     this.bones = [];
     this.isExploded = false;
@@ -70,14 +67,14 @@ export default class AnatomyExploder {
       return;
     }
     if (!this.anime) {
-      console.warn("[AnatomyExploder] Anime.js not loaded. تحقق من وسم الـ CDN.");
+      console.warn("[AnatomyExploder] Anime.js not loaded.");
     }
 
     this.init();
   }
 
   async init() {
-    this.renderMessage("جارِ تحميل النموذج…");
+    this.renderMessage("جارِ تحميل النموذج التشريحي…");
     try {
       const markup = await this.fetchSvg();
       this.injectSvg(markup);
@@ -96,7 +93,7 @@ export default class AnatomyExploder {
       this.bindControls();
     } catch (error) {
       console.error("[AnatomyExploder] فشل تحميل SVG:", error);
-      this.renderMessage(`تعذّر تحميل النموذج من المسار: ${this.svgUrl}`);
+      this.renderMessage(`تعذّر تحميل النموذج: ${this.svgUrl}`);
     }
   }
 
@@ -112,11 +109,13 @@ export default class AnatomyExploder {
     this.svgEl = doc.documentElement;
     this.svgEl.classList.add("anatomy-svg");
 
-    // تأمين viewBox إن لم يكن موجوداً (لعرض صحيح داخل الحاوية)
     if (!this.svgEl.getAttribute("viewBox")) {
       try {
         const bb = this.svgEl.getBBox();
-        this.svgEl.setAttribute("viewBox", `${bb.x} ${bb.y} ${bb.width} ${bb.height}`);
+        this.svgEl.setAttribute(
+          "viewBox",
+          `${bb.x} ${bb.y} ${bb.width} ${bb.height}`,
+        );
       } catch (e) {
         /* تجاهل */
       }
@@ -128,21 +127,22 @@ export default class AnatomyExploder {
   collectBones() {
     const candidates = Array.from(this.svgEl.querySelectorAll(SHAPE_SELECTOR));
 
-    // 1) الأساسي: عناصر تحمل inkscape:label يبدأ بـ "bone-"
     let bones = candidates.filter((el) =>
-      (el.getAttribute("inkscape:label") || "").toLowerCase().startsWith(BONE_LABEL_PREFIX),
+      (el.getAttribute("inkscape:label") || "")
+        .toLowerCase()
+        .startsWith(BONE_LABEL_PREFIX),
     );
     bones = this.keepOutermost(bones);
 
-    // 2) بديل: معرّفات تطابق أسماء العظام المعروفة
     if (!bones.length) {
       bones = candidates.filter((el) =>
-        Object.keys(BONE_META).some((name) => (el.id || "").toLowerCase().includes(name)),
+        Object.keys(BONE_META).some((name) =>
+          (el.id || "").toLowerCase().includes(name),
+        ),
       );
       bones = this.keepOutermost(bones);
     }
 
-    // 3) أخير: عناصر مرئية ذات معرّف خارج defs/clipPath
     if (!bones.length) {
       bones = candidates.filter((el) => el.id && !this.isInsideDefs(el));
       bones = this.keepOutermost(bones);
@@ -151,7 +151,6 @@ export default class AnatomyExploder {
     this.bones = bones;
   }
 
-  /** يُبقي العنصر الخارجي فقط لكل عظمة (يتجاهل الأبناء المتداخلة المسمّاة أيضاً). */
   keepOutermost(elements) {
     const set = new Set(elements);
     return elements.filter((el) => {
@@ -174,7 +173,6 @@ export default class AnatomyExploder {
     return false;
   }
 
-  /** يستخرج مفتاح العظمة من inkscape:label (bone-scaphoid -> scaphoid) أو من id. */
   resolveBoneKey(el) {
     const label = (el.getAttribute("inkscape:label") || "").toLowerCase();
     if (label.startsWith(BONE_LABEL_PREFIX)) {
@@ -184,11 +182,6 @@ export default class AnatomyExploder {
     return Object.keys(BONE_META).find((name) => id.includes(name)) || null;
   }
 
-  /**
-   * يغلف كل عظمة في مجموعتين:
-   *  - خارجية (.bone) يتحركها Anime.js (ترجمة فقط).
-   *  - داخلية (.bone__shape) للتأثيرات البصرية عند التمرير (تكبير/توهج).
-   */
   wrapBones() {
     this.bones = this.bones.map((el) => {
       const key = this.resolveBoneKey(el) || "bone";
@@ -227,7 +220,6 @@ export default class AnatomyExploder {
     });
   }
 
-  /** يحسب مركز كل عظمة في وحدات SVG (user units). */
   cacheCenters() {
     this.bones.forEach((bone) => {
       bone.center = this.getBoneCenter(bone.el);
@@ -254,10 +246,10 @@ export default class AnatomyExploder {
       const fullW = (vb && vb.width) || 6000;
       const fullH = (vb && vb.height) || 6000;
 
-      // صورة بحجم اللوحة كاملة مع clip-path => نعتمد صندوق مسار القصّ
       if (w && h && w >= fullW * 0.6 && h >= fullH * 0.6) {
         const clip = this.getClipPathBBox(el);
-        if (clip) return { x: clip.x + clip.width / 2, y: clip.y + clip.height / 2 };
+        if (clip)
+          return { x: clip.x + clip.width / 2, y: clip.y + clip.height / 2 };
         return { x: t.x + w / 2, y: t.y + h / 2 };
       }
       if (w && h) return { x: t.x + w / 2, y: t.y + h / 2 };
@@ -317,19 +309,11 @@ export default class AnatomyExploder {
     return result;
   }
 
-  /**
-   * يحسب أهداف التفكيك لكل عظمة بناءً على اتجاه تشريحي صريح:
-   *  - الجانب الكعبري (الإبهام) ينتشر يساراً بعيداً.
-   *  - الجانب الزندي (الخنصر) ينتشر يميناً بعيداً.
-   *  - العظمتان المركزيتان تنفصلان رأسياً (الهلالي للأعلى والرأسي للأسفل).
-   * تُحدَّد الإزاحات بالبكسل الشاشي ثم تُحوَّل لوحدات SVG لتحريك العظام،
-   * بينما تُستعمل مباشرة (مضروبة بعامل الإبعاد) لموضع الشارات خارج العظام.
-   */
   cacheExplodeTargets() {
     const scale = this.scale || 1;
-    // تقليص الانتشار على الشاشات الضيقة حتى لا تخرج العظام خارج حدود العرض
     const stageWidth = (this.stage && this.stage.offsetWidth) || 480;
-    const dispersion = Math.min(1, stageWidth / 480);
+    // ضبط نسبة الانتشار بدقة لتناسب الشاشات الضيقة
+    const dispersion = Math.min(1, Math.max(0.65, stageWidth / 460));
 
     this.bones.forEach((bone) => {
       const offset = BONE_EXPLODE_OFFSETS[bone.key];
@@ -337,18 +321,20 @@ export default class AnatomyExploder {
       if (offset) {
         px = { x: offset.x * dispersion, y: offset.y * dispersion };
       } else {
-        // انتشار دائري احتياطي لأي عظمة غير معروفة
         const i = this.bones.indexOf(bone);
         const n = Math.max(1, this.bones.length);
         const angle = (2 * Math.PI * i) / n;
-        const radius = 120 * dispersion;
+        const radius = 55 * dispersion;
         px = { x: Math.cos(angle) * radius, y: Math.sin(angle) * radius };
       }
 
       bone.target = { x: px.x / scale, y: px.y / scale };
+
+      // موضع الشارة يتحرك بدقة مع العظمة مع إزاحة رأسية خفيفة لمنع التغطية
+      const verticalGap = bone.meta.row === "proximal" ? 14 : -14;
       bone.badgeTarget = {
-        x: px.x * BADGE_OUTWARD_FACTOR,
-        y: px.y * BADGE_OUTWARD_FACTOR,
+        x: px.x,
+        y: px.y + verticalGap,
       };
     });
   }
@@ -384,7 +370,6 @@ export default class AnatomyExploder {
     });
   }
 
-  /** يموضع الشارات العائمة فوق مركز كل عظمة (بالوحدات الشاشية). */
   positionBadges() {
     if (!this.svgEl || !this.badgeLayer) return;
     const ctm = this.svgEl.getScreenCTM();
@@ -408,7 +393,6 @@ export default class AnatomyExploder {
   }
 
   bindControls() {
-    // النقر/اللمس في أي مكان على الحاوية يبدّل بين التفكيك والتجميع
     const toggleTarget = this.container || this.svgEl;
     if (toggleTarget) {
       toggleTarget.addEventListener("click", () => this.toggleExploded());
@@ -423,7 +407,6 @@ export default class AnatomyExploder {
       bone.outer.addEventListener("blur", () => {
         if (!this.isExploded) this.hideBadge(bone);
       });
-      // تفعيل بلوحة المفاتيح يطابق سلوك النقر/اللمس
       bone.outer.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
@@ -466,25 +449,23 @@ export default class AnatomyExploder {
     this.stop();
     this.showAllBadges();
 
-    const timing = { easing: "spring(1, 80, 12, 0)", duration: 1100 };
-    const stagger = this.anime.stagger(18);
+    const duration = 650;
+    const easing = "easeOutExpo"; // بديل النوابض الفائق السرعة
 
     this.currentAnims = [
       this.anime({
         targets: this.bones.map((b) => b.outer),
         translateX: (_el, i) => this.bones[i].target.x,
         translateY: (_el, i) => this.bones[i].target.y,
-        easing: timing.easing,
-        duration: timing.duration,
-        delay: stagger,
+        easing: easing,
+        duration: duration,
       }),
       this.anime({
         targets: this.bones.map((b) => b.badgeInner),
         translateX: (_el, i) => this.bones[i].badgeTarget.x,
         translateY: (_el, i) => this.bones[i].badgeTarget.y,
-        easing: timing.easing,
-        duration: timing.duration,
-        delay: stagger,
+        easing: easing,
+        duration: duration,
       }),
     ];
 
@@ -495,25 +476,23 @@ export default class AnatomyExploder {
     if (!this.bones.length || !this.anime) return;
     this.stop();
 
-    const timing = { easing: "easeOutCubic", duration: 900 };
-    const stagger = this.anime.stagger(14);
+    const duration = 500;
+    const easing = "easeOutCubic";
 
     this.currentAnims = [
       this.anime({
         targets: this.bones.map((b) => b.outer),
         translateX: 0,
         translateY: 0,
-        easing: timing.easing,
-        duration: timing.duration,
-        delay: stagger,
+        easing: easing,
+        duration: duration,
       }),
       this.anime({
         targets: this.bones.map((b) => b.badgeInner),
         translateX: 0,
         translateY: 0,
-        easing: timing.easing,
-        duration: timing.duration,
-        delay: stagger,
+        easing: easing,
+        duration: duration,
       }),
     ];
 
@@ -539,7 +518,7 @@ export default class AnatomyExploder {
           bone.badgeInner.style.transform = "";
         }
       });
-    }, 120);
+    }, 100);
   }
 
   renderMessage(text) {
