@@ -45,30 +45,35 @@
 ├── index.html            # Main academic portal directory
 ├── interactive-demo.html # Dedicated interactive vector exploration view
 └── reader.html           # Structured lesson reading environment
+```
 
+---
 
-🚀 Quick Start & Local Preview
+## 🚀 Quick Start & Local Preview
+
 Since this project runs on pure client-side web standards, no compilation or bundlers are required.
 
-1. Clone Repository
-Bash
-git clone [https://github.com/Mr-Automic/physioguide-platform.git](https://github.com/Mr-Automic/physioguide-platform.git)
-cd physioguide-platform
-2. Run Locally
-You can run it using any static file server:
+### 1. Clone Repository
+```bash
+git clone https://github.com/Mr-Automic/physioguide-web.git
+cd physioguide-web
+```
 
-Bash
-# Using Python 3
+### 2. Run Locally
+```bash
 python3 -m http.server 3000
+```
+Open `http://localhost:3000` in your browser.
 
-# Or using Node.js
-npx serve .
-Open http://localhost:3000 in your browser (or your tablet's local IP).
+---
 
-🌐 Live Demonstration
-Access the deployed academic portal directly from your mobile or tablet browser:
+## 🌐 Live Demonstration
 
-👉 Launch PhysioGuide Live Platform
+Access the deployed academic portal directly from your mobile or tablet browser:  
+👉 **[Launch PhysioGuide Live Platform](https://mr-automic.github.io/physioguide-web/)**
 
-📄 License
-Distributed under the MIT License. See LICENSE for more information.
+---
+
+## 📄 License
+
+Distributed under the **MIT License**.
