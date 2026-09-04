@@ -27,24 +27,24 @@
 
 ```text
 ├── css/
-│   ├── components/       # Scoped styling (quiz, reader, interactive, sidebar, hero)
-│   ├── base.css          # Foundational resets and cross-browser normalizations
-│   ├── layout.css        # Responsive mobile/tablet grid definitions
-│   └── variables.css     # CSS Custom Properties (design tokens & theming)
+│   ├── components/             # Scoped styling (quiz, reader, interactive, sidebar, hero)
+│   ├── base.css                # Foundational resets and cross-browser normalizations
+│   ├── layout.css              # Responsive mobile/tablet grid definitions
+│   └── variables.css           # CSS Custom Properties (design tokens & theming)
 ├── data/
-│   └── sample-lesson.json # Decoupled syllabus and modular study units
-├── images/               # High-precision vector plates (SVG) & anatomical media
+│   └── sample-lesson.json      # Decoupled syllabus and modular study units
+├── images/                     # High-precision vector plates (SVG) & anatomical media
 ├── js/
-│   ├── modules/          # Discrete business logic units
+│   ├── modules/                # Discrete business logic units
 │   │   ├── AnatomyExploder.js  # Vector path event delegation & animation
 │   │   ├── QuizEngine.js       # Assessment lifecycle & state verification
 │   │   ├── TocManager.js       # Dynamic syllabus index synchronization
 │   │   └── ThemeManager.js     # Client preference synchronization
-│   ├── reader.js         # Reader workspace coordinator
-│   └── script.js         # Core application bootstrapper
-├── index.html            # Main academic portal directory
-├── interactive-demo.html # Dedicated interactive vector exploration view
-└── reader.html           # Structured lesson reading environment
+│   ├── reader.js               # Reader workspace coordinator
+│   └── script.js               # Core application bootstrapper
+├── index.html                  # Main academic portal directory
+├── interactive-demo.html       # Dedicated interactive vector exploration view
+└── reader.html                 # Structured lesson reading environment
 ```
 
 ---
